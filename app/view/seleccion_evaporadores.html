@@ -1,1 +1,73 @@
-<p>Hola</p>
+<div class="p-4 sel-evap">
+	<button  class="btn btn-primary" ui-sref="home">Volver</button>
+	<div class="row">
+		<div class="col-6">
+			<span>Componente seleccionado: </span>
+			<button class="btn btn-secondary" >Cambiar nombre</button>
+			<button class="btn btn-secondary"><i class="fa fa-times"></i>Eliminar</button>
+		</div>
+		<div class="col-6">
+			<span>Captura de Pantalla:</span>
+			<div class="row">
+			  <button class="btn btn-secondary col-4" >Ver lista de válvulas</button>
+			  <button class="btn btn-secondary col-4" >Copiar lista de válvulas</button>
+			  <button class="btn btn-secondary col-4" >Imprimir Lista de válvulas</button>
+			</div>
+		</div>
+	</div>
+	<div class="row sistemas">
+		<button class="btn">Sistema 1</button>
+		<button class="btn">Nuevo</button>
+	</div>
+	<div class="row sel-evap-directiva">
+		<div class="col-5 p-4">
+			<img class="sel-evap-img" src="app/media/expansion_directa.JPG">
+		</div>
+		<div class="col-7">
+			<h2>Datos a procesar:</h2>
+			<div class="row">
+				<div class="col-3">Descongelamiento: <select class="form-control"><option>Gas Caliente</option></select></div>
+				<div class="col-3">Temperatura: [F] <input class="form-control" type="number" name=""/></div>
+				<div class="col-3">Carga Termica Total <input class="form-control" type="number" name=""/></div>
+				<div class="col-3">N Evaporadores<input class="form-control" type="number" name=""/></div>
+			</div>
+			<div class="row">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Cargar Termica Evaporadores(TR)</th>
+							<th scope="col"><input class="form-control" type="number" name=""/></th>
+							<th scope="col">Valvulas</th>
+						</tr>
+						<tr>
+							<th scope="col">ABREVIATURA</th>
+							<th scope="col">NOMBRE</th>
+							<th scope="col">UBICACIÓN</th>
+							<th scope="col">TAMAÑO</th>
+							<th scope="col">MODELO</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">1</th>
+							<td>Mark</td>
+							<td>Otto</td>
+							<td>@mdo</td>
+						</tr>
+						<tr>
+							<th scope="row">2</th>
+							<td>Jacob</td>
+							<td>Thornton</td>
+							<td>@fat</td>
+						</tr>
+						<tr>
+							<th scope="row">3</th>
+							<td>Larry</td>
+							<td>the Bird</td>
+							<td>@twitter</td>
+						</tr>
+					</tbody>
+				</table></div>
+			</div>
+		</div>
+	</div>
