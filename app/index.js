@@ -8,7 +8,7 @@ angular.module('resof', ['ui.router'])
 	});
 	$stateProvider.state({
 		name: 'seleccion_evaporadores',
-		url: '/evap',
+		url: '/evap/:type',
 		templateUrl: 'app/view/seleccion_evaporadores.html'
 	});
 });
