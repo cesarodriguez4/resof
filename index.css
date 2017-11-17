@@ -26,7 +26,10 @@ header h1 {
 	padding: 0;
 }
 
-
+.logo {
+	background-image: url(app/media/mountain.jpg);
+    width: 100%;
+}
 
 .logo img {
 	width: 100%;
@@ -51,4 +54,11 @@ header h1 {
     border-radius: 0px 10px 1px 0px;
     padding: 2px;
     margin: 1px;
+}
+
+.tab {
+	background: #0275d8 !important;
+    color: white;
+    padding: 10px !important;
+    border: none !important;
 }

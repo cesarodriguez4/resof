@@ -9,4 +9,8 @@ function evap() {
     that.numberTab +=1;
     that.tabs.push(that.numberTab);
   };
+  that.deleteTab = function() {
+    that.numberTab -=1;
+    that.tabs.splice(-1,1);
+  };
 };

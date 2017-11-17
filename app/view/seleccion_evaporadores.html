@@ -16,8 +16,9 @@
 		</div>
 	</div>
 	<div class="row sistemas">
-		<button class="btn" ng-repeat="(el,key) in evap.tabs">Sistema {{key}}</button>
-		<button class="btn" ng-click="evap.onNewTab()">Nuevo</button>
+		<button class="btn tab" ng-repeat="(el,key) in evap.tabs">Sistema {{key}}</button>
+		<button class="btn tab" ng-if="evap.tabs.length > 1" ng-click="evap.deleteTab()">X</button>
+		<button class="btn tab" ng-click="evap.onNewTab()">Nuevo</button>
 	</div>
 	  <evaporadores></evaporadores>
 	</div>
