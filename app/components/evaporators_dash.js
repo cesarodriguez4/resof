@@ -4,26 +4,35 @@ angular.module('resof')
 	bindings: {
 		hero: '='
 	},
-	controller: function($stateParams) {
+	controller: function($http, $stateParams) {
 		const type = $stateParams.type;
+		const vm = this;
 		switch (type) {
 			case 'expansion_directa':
-			  this.img = 'app/media/expansion_directa.JPG';
-			  this.title = 'Expansión Directa';
+			  vm.img = 'app/media/expansion_directa.JPG';
+			  vm.title = 'Expansión Directa';
 			  break;
 			case 'recirculado':
-			  this.img = 'app/media/recirculado.JPG';
-			  this.title = 'Recirculado';
+			  vm.img = 'app/media/recirculado.JPG';
+			  vm.title = 'Recirculado';
+			  vm.ajax = 'https://resof.herokuapp.com/api/recirculado';
+
+			  $http({ method: 'GET',
+				  url: vm.ajax
+				}).then(res => {
+					vm.listTable = res.data;
+				});	  
 			  break;
 			case 'inundado':
-			  this.img = 'app/media/inundado.JPG';
-			  this.title = 'Inundado';
+			  vm.img = 'app/media/inundado.JPG';
+			  vm.title = 'Inundado';
 			  break;
 			default:
-			  this.img = null;
-			  this.title = null;
+			  vm.img = null;
+			  vm.title = null;
 			  break;
 		}
 
+		
 	}
 });
