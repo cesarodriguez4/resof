@@ -11,16 +11,16 @@
 				<option>Agua</option>
 			</select>
 		</div>
-		<div class="col-3">Temperatura: [F] <input class="form-control" type="number" name=""/></div>
-		<div class="col-3">Carga Termica Total <input class="form-control" type="number" name=""/></div>
-		<div class="col-3">N Evaporadores<input class="form-control" type="number" name=""/></div>
+		<div class="col-3">Temperatura: [F]  <select ng-model="$ctrl.tempSel"><option ng-repeat="it in $ctrl.succion" ng-value="{{it.temperatura}}">{{it.temperatura}}</option></select></div>
+		<div class="col-3">Carga Termica Total <input ng-model="$ctrl.cargaTotal" class="form-control" type="number" name=""/></div>
+		<div class="col-3">N Evaporadores<input ng-model="$ctrl.numeroEvaporadores" class="form-control" type="number" name=""/></div>
 	</div>
 	<div class="row">
 		<table class="table">
 			<thead>
 				<tr>
 					<th scope="col">Cargar Termica Evaporadores(TR)</th>
-					<th scope="col"><input class="form-control" type="number" name=""/></th>
+					<th scope="col">{{$ctrl.cargaTotal/$ctrl.numeroEvaporadores}}</th>
 					<th scope="col">Valvulas</th>
 				</tr>
 				<tr>
@@ -39,7 +39,7 @@
 	                <td>{{item.nombre}}</td>
 	                <td>{{item.ubicacion}}</td>
 	                <td>{{item.modelo}}</td>
-	                <td>{{item.tamano}}</td>
+	                <td>{{$ctrl.calcTam(item.ubicacion)}}</td>
 				</tr>
 			</tbody>
 		</table>
