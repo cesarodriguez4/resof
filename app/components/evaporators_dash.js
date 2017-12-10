@@ -31,25 +31,28 @@ angular.module('resof')
               return Object.keys(object).find(key => object[key] === value);
             }
 
-            function LineaDeSuccion() {
-                const carga = vm.cargaTotal / vm.numeroEvaporadores;
-                vm.succion.map(i => {
-                    if (i.temperatura == vm.tempSel) {
-                        delete i.id;
-                        delete i.presion;
-                        delete i.temperatura;
-                        delete i.$$hashKey;
+        function LineaDeSuccion() {
+            const carga = vm.cargaTotal / vm.numeroEvaporadores;
+            const i = vm.succion.find(i => i.temperatura == vm.tempSel);
 
-                        console.log(i);
-                        const cargas = Object.keys(i).map(function(key) {
-                            return i[key];
-                        });
-                        console.log(getKeyByValue(i, closest(cargas, carga)));
-                        return getKeyByValue(i, closest(cargas, carga));
-                    }
-                });
-                return '2"';
+            console.log('i',i);
+
+            if (i === undefined) {
+                throw Error("can't find what I want in the array");
+            } else {
+                delete i.id;
             }
+
+
+
+            const cargas = Object.keys(i).map(function(key) {
+                return i[key];
+            });
+
+            console.log(cargas);
+            console.log(getKeyByValue(i, closest(cargas, carga)));
+            return getKeyByValue(i, closest(cargas, carga));
+        }
             switch (type) {
                 case 'expansion_directa':
                     vm.img = 'app/media/expansion_directa.JPG';
@@ -98,7 +101,6 @@ angular.module('resof')
                 } else {
                     return 'No hay datos';
                 }
-
             }
         }
     });
