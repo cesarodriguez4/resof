@@ -8,6 +8,8 @@ angular.module('resof')
             const type = $stateParams.type;
             const vm = this;
             const URL_SUCCION = 'https://resof.herokuapp.com/api/diametros/linea_de_succion';
+            const URL_PUMP_DISCHARGE = 'https://resof.herokuapp.com/api/diametros/pump_discharge';
+            vm.pump_values = [];
 
             function closest(arr, target) {
                 if (!(arr) || arr.length == 0)
@@ -24,35 +26,36 @@ angular.module('resof')
                         return Math.abs(p - target) < Math.abs(c - target) ? p : c;
                     }
                 }
+                console.log('respuesta', arr[arr.length - 1])
                 // No number in array is bigger so return the last.
                 return arr[arr.length - 1];
             }
+
             function getKeyByValue(object, value) {
-              return Object.keys(object).find(key => object[key] === value);
+                return Object.keys(object).find(key => object[key] === value);
             }
 
-        function LineaDeSuccion() {
-            const carga = vm.cargaTotal / vm.numeroEvaporadores;
-            const i = vm.succion.find(i => i.temperatura == vm.tempSel);
+            function LineaDeSuccion() {
+                const carga = vm.cargaTotal / vm.numeroEvaporadores;
+                const i = vm.succion.find(i => i.temperatura == vm.tempSel);
 
-            console.log('i',i);
+                if (i === undefined) {
+                    throw Error("can't find what I want in the array");
+                } else {
+                    delete i.id;
+                }
 
-            if (i === undefined) {
-                throw Error("can't find what I want in the array");
-            } else {
-                delete i.id;
+                const cargas = Object.keys(i).map(function(key) {
+                    return i[key];
+                });
+                return getKeyByValue(i, closest(cargas, carga));
             }
 
+            function LineadeLiquido() {
+                const carga = vm.cargaTotal / vm.numeroEvaporadores;
+                return getKeyByValue(vm.pump_discharge, closest(vm.pump_values, carga));
+            }
 
-
-            const cargas = Object.keys(i).map(function(key) {
-                return i[key];
-            });
-
-            console.log(cargas);
-            console.log(getKeyByValue(i, closest(cargas, carga)));
-            return getKeyByValue(i, closest(cargas, carga));
-        }
             switch (type) {
                 case 'expansion_directa':
                     vm.img = 'app/media/expansion_directa.JPG';
@@ -76,6 +79,17 @@ angular.module('resof')
                     });
                     $http({
                         method: 'GET',
+                        url: URL_PUMP_DISCHARGE
+                    }).then(res => {
+                        vm.pump_discharge = res.data;
+                        delete vm.pump_discharge.id;
+                        delete vm.pump_discharge.service;
+                        for (let i in res.data) {
+                            vm.pump_values.push(res.data[i]);
+                        }
+                    });
+                    $http({
+                        method: 'GET',
                         url: URL_SUCCION
                     }).then(res => {
                         vm.succion = res.data;
@@ -95,6 +109,10 @@ angular.module('resof')
                     switch (type) {
                         case 'Línea de Succión':
                             return LineaDeSuccion();
+                        case 'Línea de Liquido':
+                            return LineadeLiquido();
+                        case 'Drenaje de Descongelamiento':
+                            return LineadeLiquido();
                         default:
                             return console.warn('No mode selected');
                     }
