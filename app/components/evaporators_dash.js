@@ -9,7 +9,9 @@ angular.module('resof')
             const vm = this;
             const URL_SUCCION = 'https://resof.herokuapp.com/api/diametros/linea_de_succion';
             const URL_PUMP_DISCHARGE = 'https://resof.herokuapp.com/api/diametros/pump_discharge';
+            const URL_GAS_CALIENTE = 'https://resof.herokuapp.com/api/diametros/gas_caliente';
             vm.pump_values = [];
+            vm.gas_values = [];
 
             function closest(arr, target) {
                 if (!(arr) || arr.length == 0)
@@ -56,6 +58,13 @@ angular.module('resof')
                 return getKeyByValue(vm.pump_discharge, closest(vm.pump_values, carga));
             }
 
+            function GasCaliente() {
+                const carga = vm.cargaTotal / vm.numeroEvaporadores;
+                return getKeyByValue(vm.gas, closest(vm.gas_values, carga));
+            }
+
+
+
             switch (type) {
                 case 'expansion_directa':
                     vm.img = 'app/media/expansion_directa.JPG';
@@ -88,6 +97,20 @@ angular.module('resof')
                             vm.pump_values.push(res.data[i]);
                         }
                     });
+
+                    $http({
+                        method: 'GET',
+                        url: URL_GAS_CALIENTE
+                    }).then(res => {
+                        vm.gas = res.data;
+                        delete vm.gas.id;
+                        delete vm.gas.service;
+                        for (let i in res.data) {
+                            vm.gas_values.push(res.data[i]);
+                        }
+                    });
+
+
                     $http({
                         method: 'GET',
                         url: URL_SUCCION
@@ -113,11 +136,13 @@ angular.module('resof')
                             return LineadeLiquido();
                         case 'Drenaje de Descongelamiento':
                             return LineadeLiquido();
+                        case 'Línea de Gas Caliente':
+                            return GasCaliente();
                         default:
                             return console.warn('No mode selected');
                     }
                 } else {
-                    return 'No hay datos';
+                    return 'Selecciona una temperatura';
                 }
             }
         }
