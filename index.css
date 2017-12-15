@@ -5,7 +5,7 @@ body {
 }
 
 body {
-	font-family: -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
+	font-family: 'Roboto', -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 header {
@@ -28,7 +28,6 @@ header h1 {
 
 .logo {
 	background-image: url(app/media/mountain.jpg);
-    width: 100%;
 }
 
 .logo img {
@@ -41,7 +40,7 @@ header h1 {
 
 .sel-evap-img {
 	width: 100%;
-	border: 1px solid blue;
+	border: 1px solid #afafdc;
 }
 
 .sel-evap-directiva {

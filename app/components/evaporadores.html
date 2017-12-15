@@ -1,4 +1,4 @@
-<div class="row sel-evap-directiva">
+<div class="row sel-evap-directiva p-4">
 	<div class="col-5 p-4">
 		<img class="sel-evap-img" src="{{$ctrl.img}}">
 	</div>
@@ -17,7 +17,8 @@
 		<div class="col-3">N Evaporadores<input ng-model="$ctrl.numeroEvaporadores" class="form-control" type="number" min="0" name=""/></div>
 	</div>
 	<div class="row">
-		<table class="table">
+		<div ng-if='$ctrl.loadingTable'><i class="fa fa-cog fa-spin"></i> Cargando...</div>
+		<table ng-if='!$ctrl.loadingTable' class="table">
 			<thead>
 				<tr>
 					<th scope="col">Cargar Termica Evaporadores(TR)</th>

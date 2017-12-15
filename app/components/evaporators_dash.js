@@ -13,6 +13,7 @@ angular.module('resof')
             const FETCH_RECIR = 'https://resof.herokuapp.com/api/recirculado';
             const FETCH_INUNDADO = 'https://resof.herokuapp.com/api/inundado';
             const FETCH_EXPANSION_DIRECTA = 'https://resof.herokuapp.com/api/expansion_directa';
+            vm.loadingTable = true;
             vm.pump_values = [];
             vm.gas_values = [];
             vm.wgasList = [];
@@ -114,6 +115,7 @@ angular.module('resof')
                         method: 'GET',
                         url: FETCH_EXPANSION_DIRECTA
                     }).then(res => {
+                        vm.loadingTable = false;
                         vm.listTable = res.data;
                         vm.generalList = res.data;
                         let listWithoutGas = res.data;
@@ -131,6 +133,7 @@ angular.module('resof')
                         method: 'GET',
                         url: FETCH_RECIR
                     }).then(res => {
+                        vm.loadingTable = false;
                         vm.listTable = res.data;
                         vm.generalList = res.data;
                         let listWithoutGas = res.data;
@@ -148,6 +151,7 @@ angular.module('resof')
                         method: 'GET',
                         url: FETCH_INUNDADO
                     }).then(res => {
+                        vm.loadingTable = false;
                         vm.listTable = res.data;
                         vm.generalList = res.data;
                         let listWithoutGas = res.data;
