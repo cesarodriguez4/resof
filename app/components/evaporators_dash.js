@@ -50,6 +50,8 @@ angular.module('resof')
             });
 
             function closest(arr, target) {
+                console.log('arrlength', arr.length);
+                console.log('arr', arr, 'target', target);
                 if (!(arr) || arr.length == 0)
                     return null;
                 if (arr.length == 1)
@@ -69,6 +71,7 @@ angular.module('resof')
             }
 
             function getKeyByValue(object, value) {
+                console.log('obye', object, 'veiliu', value);
                 return Object.keys(object).find(key => object[key] === value);
             }
 
@@ -88,10 +91,10 @@ angular.module('resof')
                         }
                     }
                 }
-
                 const cargas = Object.keys(valores).map(function(key) {
                     return valores[key];
                 });
+                console.log(valores);
                 return getKeyByValue(valores, closest(cargas, carga));
             }
 
