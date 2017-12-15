@@ -5,15 +5,16 @@
 	<div class="col-7">
 		<h2>Datos a procesar:</h2>
 		<div class="row">
-			<div class="col-3">Descongelamiento: <select class="form-control">
-				<option>Gas Caliente</option>
-				<option>Eléctrico</option>
-				<option>Agua</option>
+			<div class="col-3">Descongelamiento: 
+			<select class="form-control" ng-model="$ctrl.des" ng-change="$ctrl.cambiaDescongelamiento()">
+				<option ng-repeat="ub in $ctrl.descongelamiento" ng-value="ub">{{ub}}</option>
 			</select>
 		</div>
-		<div class="col-3">Temperatura: [F]  <select ng-model="$ctrl.tempSel"><option ng-repeat="it in $ctrl.succion" ng-value="{{it.temperatura}}">{{it.temperatura}}</option></select></div>
-		<div class="col-3">Carga Termica Total <input ng-model="$ctrl.cargaTotal" class="form-control" type="number" name=""/></div>
-		<div class="col-3">N Evaporadores<input ng-model="$ctrl.numeroEvaporadores" class="form-control" type="number" name=""/></div>
+		<div class="col-3">Temperatura: [F]  <select class="form-control" ng-model="$ctrl.tempSel">
+			<option ng-repeat="it in $ctrl.succion" ng-value="{{it.temperatura}}">{{it.temperatura}}</option>
+		</select></div>
+		<div class="col-3">Carga Termica Total <input ng-model="$ctrl.cargaTotal" class="form-control" type="number" min="0" name=""/></div>
+		<div class="col-3">N Evaporadores<input ng-model="$ctrl.numeroEvaporadores" class="form-control" type="number" min="0" name=""/></div>
 	</div>
 	<div class="row">
 		<table class="table">
@@ -31,7 +32,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="item in $ctrl.listTable">
+				<tr ng-repeat="item in $ctrl.generalList">
 	                <td>{{item.nombre}}</td>
 	                <td>{{item.ubicacion}}</td>
 	                <td>{{item.modelo}}</td>

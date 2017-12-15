@@ -10,8 +10,43 @@ angular.module('resof')
             const URL_SUCCION = 'https://resof.herokuapp.com/api/diametros/linea_de_succion';
             const URL_PUMP_DISCHARGE = 'https://resof.herokuapp.com/api/diametros/pump_discharge';
             const URL_GAS_CALIENTE = 'https://resof.herokuapp.com/api/diametros/gas_caliente';
+            const FETCH_RECIR = 'https://resof.herokuapp.com/api/recirculado';
+            const FETCH_INUNDADO = 'https://resof.herokuapp.com/api/inundado';
+            const FETCH_EXPANSION_DIRECTA = 'https://resof.herokuapp.com/api/expansion_directa';
             vm.pump_values = [];
             vm.gas_values = [];
+            vm.wgasList = [];
+            vm.descongelamiento = ['Gas Caliente', 'Eléctrico', 'Agua'];
+
+            $http({
+                method: 'GET',
+                url: URL_PUMP_DISCHARGE
+            }).then(res => {
+                vm.pump_discharge = res.data;
+                delete vm.pump_discharge.id;
+                delete vm.pump_discharge.service;
+                for (let i in res.data) {
+                    vm.pump_values.push(res.data[i]);
+                }
+            });
+
+            $http({
+                method: 'GET',
+                url: URL_GAS_CALIENTE
+            }).then(res => {
+                vm.gas = res.data;
+                delete vm.gas.id;
+                delete vm.gas.service;
+                for (let i in res.data) {
+                    vm.gas_values.push(res.data[i]);
+                }
+            });
+            $http({
+                method: 'GET',
+                url: URL_SUCCION
+            }).then(res => {
+                vm.succion = res.data;
+            });
 
             function closest(arr, target) {
                 if (!(arr) || arr.length == 0)
@@ -28,7 +63,6 @@ angular.module('resof')
                         return Math.abs(p - target) < Math.abs(c - target) ? p : c;
                     }
                 }
-                console.log('respuesta', arr[arr.length - 1])
                 // No number in array is bigger so return the last.
                 return arr[arr.length - 1];
             }
@@ -39,18 +73,25 @@ angular.module('resof')
 
             function LineaDeSuccion() {
                 const carga = vm.cargaTotal / vm.numeroEvaporadores;
+                const valores = {};
                 const i = vm.succion.find(i => i.temperatura == vm.tempSel);
 
                 if (i === undefined) {
                     throw Error("can't find what I want in the array");
                 } else {
-                    delete i.id;
+                    for (let key in i) {
+                        if (key === 'temperatura' || key === 'presion' || key === 'id' || key === '$$hashKey') {
+
+                        } else {
+                            valores[key] = i[key];
+                        }
+                    }
                 }
 
-                const cargas = Object.keys(i).map(function(key) {
-                    return i[key];
+                const cargas = Object.keys(valores).map(function(key) {
+                    return valores[key];
                 });
-                return getKeyByValue(i, closest(cargas, carga));
+                return getKeyByValue(valores, closest(cargas, carga));
             }
 
             function LineadeLiquido() {
@@ -69,58 +110,53 @@ angular.module('resof')
                 case 'expansion_directa':
                     vm.img = 'app/media/expansion_directa.JPG';
                     vm.title = 'Expansión Directa';
+                    $http({
+                        method: 'GET',
+                        url: FETCH_EXPANSION_DIRECTA
+                    }).then(res => {
+                        vm.listTable = res.data;
+                        vm.generalList = res.data;
+                        let listWithoutGas = res.data;
+                        listWithoutGas.map(x => {
+                            if (x.ubicacion !== 'Línea de Gas Caliente') {
+                                vm.wgasList.push(x);
+                            }
+                        });
+                    });
                     break;
                 case 'recirculado':
                     vm.img = 'app/media/recirculado.JPG';
                     vm.title = 'Recirculado';
-                    vm.ajaxRecir = 'https://resof.herokuapp.com/api/recirculado';
-                    vm.getDiam = 'https://resof.herokuapp.com/api/diametros/linea_de_liquido';
-                    // 0. Crear servicios que traigan diametros
-                    // 1. Traer todos los datos (linea de liquido, gas caliente, succion, drenaje) y almacenarlos en variables
-                    // 2. para cada entrada analizamos cual tipo es (linea liquido, caliente...) y le pasamos una
-                    // funcion con el tipo, los datos y la temperatura o carga termica
-                    // Esa funcion devuelve el diametro que corresponda.
                     $http({
                         method: 'GET',
-                        url: vm.ajaxRecir
+                        url: FETCH_RECIR
                     }).then(res => {
                         vm.listTable = res.data;
-                    });
-                    $http({
-                        method: 'GET',
-                        url: URL_PUMP_DISCHARGE
-                    }).then(res => {
-                        vm.pump_discharge = res.data;
-                        delete vm.pump_discharge.id;
-                        delete vm.pump_discharge.service;
-                        for (let i in res.data) {
-                            vm.pump_values.push(res.data[i]);
-                        }
-                    });
-
-                    $http({
-                        method: 'GET',
-                        url: URL_GAS_CALIENTE
-                    }).then(res => {
-                        vm.gas = res.data;
-                        delete vm.gas.id;
-                        delete vm.gas.service;
-                        for (let i in res.data) {
-                            vm.gas_values.push(res.data[i]);
-                        }
-                    });
-
-
-                    $http({
-                        method: 'GET',
-                        url: URL_SUCCION
-                    }).then(res => {
-                        vm.succion = res.data;
+                        vm.generalList = res.data;
+                        let listWithoutGas = res.data;
+                        listWithoutGas.map(x => {
+                            if (x.ubicacion !== 'Línea de Gas Caliente') {
+                                vm.wgasList.push(x);
+                            }
+                        });
                     });
                     break;
                 case 'inundado':
                     vm.img = 'app/media/inundado.JPG';
                     vm.title = 'Inundado';
+                    $http({
+                        method: 'GET',
+                        url: FETCH_INUNDADO
+                    }).then(res => {
+                        vm.listTable = res.data;
+                        vm.generalList = res.data;
+                        let listWithoutGas = res.data;
+                        listWithoutGas.map(x => {
+                            if (x.ubicacion !== 'Línea de Gas Caliente') {
+                                vm.wgasList.push(x);
+                            }
+                        });
+                    });
                     break;
                 default:
                     vm.img = null;
@@ -128,21 +164,35 @@ angular.module('resof')
                     break;
             }
             vm.calcTam = type => {
-                if (vm.succion) {
-                    switch (type) {
-                        case 'Línea de Succión':
-                            return LineaDeSuccion();
-                        case 'Línea de Liquido':
-                            return LineadeLiquido();
-                        case 'Drenaje de Descongelamiento':
-                            return LineadeLiquido();
-                        case 'Línea de Gas Caliente':
-                            return GasCaliente();
-                        default:
-                            return console.warn('No mode selected');
+                if (vm.cargaTotal && vm.numeroEvaporadores) {
+                    if (vm.succion) {
+                        switch (type) {
+                            case 'Línea de Succión':
+                                return LineaDeSuccion();
+                            case 'Línea de Líquido':
+                                return LineadeLiquido();
+                            case 'Drenaje de Descongelamiento':
+                                return LineadeLiquido();
+                            case 'Línea de Descongelamiento':
+                                return LineadeLiquido();
+                            case 'Línea de Gas Caliente':
+                                return GasCaliente();
+                            default:
+                                return console.warn('No mode selected');
+                        }
+                    } else {
+                        return 'Selecciona una temperatura';
                     }
                 } else {
-                    return 'Selecciona una temperatura';
+                    return " ";
+                }
+            }
+
+            vm.cambiaDescongelamiento = () => {
+                if (vm.des == 'Gas Caliente') {
+                    vm.generalList = vm.listTable;
+                } else {
+                    vm.generalList = vm.wgasList;
                 }
             }
         }
