@@ -26,17 +26,17 @@
 					<th scope="col">Valvulas</th>
 				</tr>
 				<tr>
-					<th scope="col">NOMBRE</th>
-					<th scope="col">UBICACIÓN</th>
-					<th scope="col">TAMAÑO</th>
-					<th scope="col">MODELO</th>
+					<th class='text-center' scope="col">NOMBRE</th>
+					<th class='text-center' scope="col">UBICACIÓN</th>
+					<th class='text-center' scope="col">TAMAÑO</th>
+					<th class='text-center' scope="col">MODELO</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="item in $ctrl.generalList">
-	                <td>{{item.nombre}}</td>
+	                <td class='text-center'>{{item.nombre}}</td>
 	                <td>{{item.ubicacion}}</td>
-	                <td>{{$ctrl.calcTam(item.ubicacion)}}</td>
+	                <td class='text-center'>{{$ctrl.calcTam(item.ubicacion)}}</td>
 	                <td>{{item.modelo}}</td>
 				</tr>
 			</tbody>
