@@ -35,7 +35,8 @@
 			<tbody>
 				<tr ng-repeat="item in $ctrl.generalList">
 	                <td class='text-center'>{{item.nombre}}</td>
-	                <td>{{item.ubicacion}}</td>
+	                <td ng-if="item.modelo !== 'Válvula Pilotada CK2 SW FLG, W/Piloto 110V'">{{item.ubicacion}}</td>
+	                <td ng-if="item.modelo === 'Válvula Pilotada CK2 SW FLG, W/Piloto 110V'">{{$ctrl.modelByTemp()}}</td>
 	                <td class='text-center'>{{$ctrl.calcTam(item.ubicacion)}}</td>
 	                <td>{{item.modelo}}</td>
 				</tr>
