@@ -5,43 +5,45 @@
 	<div class="col-7">
 		<h2>Datos a procesar:</h2>
 		<div class="row">
-			<div class="col-3">Descongelamiento: 
-			<select class="form-control" ng-model="$ctrl.des" ng-change="$ctrl.cambiaDescongelamiento()">
-				<option ng-repeat="ub in $ctrl.descongelamiento" ng-value="ub">{{ub}}</option>
-			</select>
+			<div class="col-3">Descongelamiento:
+				<select class="form-control" ng-model="$ctrl.des" ng-change="$ctrl.cambiaDescongelamiento()">
+					<option ng-repeat="ub in $ctrl.descongelamiento" ng-value="ub">{{ub}}</option>
+				</select>
+			</div>
+			<div class="col-3">Temperatura: [F]  <select class="form-control" ng-model="$ctrl.tempSel">
+				<option ng-repeat="it in $ctrl.succion" ng-value="{{it.temperatura}}">{{it.temperatura}}</option>
+			</select></div>
+			<div class="col-3">Carga Termica Total <input ng-model="$ctrl.cargaTotal" class="form-control" type="number" min="0" name=""/></div>
+			<div class="col-3">N Evaporadores<input class="form-control" ng-model="$ctrl.numeroEvaporadores" class="form-control" type="number" min="0" name=""/></div>
 		</div>
-		<div class="col-3">Temperatura: [F]  <select class="form-control" ng-model="$ctrl.tempSel">
-			<option ng-repeat="it in $ctrl.succion" ng-value="{{it.temperatura}}">{{it.temperatura}}</option>
-		</select></div>
-		<div class="col-3">Carga Termica Total <input ng-model="$ctrl.cargaTotal" class="form-control" type="number" min="0" name=""/></div>
-		<div class="col-3">N Evaporadores<input ng-model="$ctrl.numeroEvaporadores" class="form-control" type="number" min="0" name=""/></div>
-	</div>
-	<div class="row">
-		<div ng-if='$ctrl.loadingTable'><i class="fa fa-cog fa-spin"></i> Cargando...</div>
-		<table ng-if='!$ctrl.loadingTable' class="table">
-			<thead>
-				<tr>
-					<th scope="col">Cargar Termica Evaporadores(TR)</th>
-					<th scope="col">{{$ctrl.cargaTotal/$ctrl.numeroEvaporadores}}</th>
-					<th scope="col">Valvulas</th>
-				</tr>
-				<tr>
-					<th class='text-center' scope="col">NOMBRE</th>
-					<th class='text-center' scope="col">UBICACIÓN</th>
-					<th class='text-center' scope="col">TAMAÑO</th>
-					<th class='text-center' scope="col">MODELO</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="item in $ctrl.generalList">
-	                <td class='text-center'>{{item.nombre}}</td>
-	                <td ng-if="item.modelo !== 'Válvula Pilotada CK2 SW FLG, W/Piloto 110V'">{{item.ubicacion}}</td>
-	                <td ng-if="item.modelo === 'Válvula Pilotada CK2 SW FLG, W/Piloto 110V'">{{$ctrl.modelByTemp()}}</td>
-	                <td class='text-center'>{{$ctrl.calcTam(item.ubicacion)}}</td>
-	                <td>{{item.modelo}}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+		<div class="row">
+			<div class="mt-2 cg-e">
+				Carga Termica Evaporadores(TR) 
+				<input class='col-2 text-center' type="text" disabled value="{{$ctrl.cargaTotal/$ctrl.numeroEvaporadores || 'Sin datos'}}"/>
+			</div>
+			<div class="col-lg-12 text-center valvulas-title mt-2">Valvulas</div>
+			<div ng-if='$ctrl.loadingTable'><i class="fa fa-cog fa-spin"></i> Cargando...</div>
+			<table ng-if='!$ctrl.loadingTable' class="table table-bordered table-sm table-responsive">
+				<thead>
+					<tr class="title-rejas">
+						<th  scope="col">ABREVIATURA</th>
+						<th  scope="col">NOMBRE</th>
+						<th  scope="col">UBICACIÓN</th>
+						<th  scope="col">TAMAÑO</th>
+						<th class="col-lg-4" scope="col">MODELO</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in $ctrl.generalList">
+						<td class="rejilla">{{item.alias}}</td>
+						<td class="rejilla">{{item.nombre}}</td>
+						<td class="rejilla">{{item.ubicacion}}</td>
+						<td class="rejilla">{{$ctrl.calcTam(item.ubicacion)}}</td>
+						<td class="rejilla" ng-if="item.modelo !== 'Válvula Pilotada CK2 SW FLG, W/Piloto 110V'">{{item.modelo}}</td>
+						<td class="rejilla" ng-if="item.modelo === 'Válvula Pilotada CK2 SW FLG, W/Piloto 110V'">{{$ctrl.modelByTemp()}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>

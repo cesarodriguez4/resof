@@ -61,3 +61,32 @@ header h1 {
     padding: 10px !important;
     border: none !important;
 }
+
+.rejilla {
+	border: 1px solid #000000 !important;
+    background-color:  white;
+}
+
+.title-rejas {
+	background-color: #dedede;
+}
+
+.table-bordered th, .table-bordered td {
+	border: 1px solid black !important;
+}
+
+.valvulas-title {
+	background-color: #dedede;
+	border: 1px solid black;
+	font-weight: bold;
+}
+
+.cg-e {
+	font-weight: bold;
+}
+
+.cg-e input[type="text"]:disabled {
+	background-color: white;
+	border: 1px solid #d6d6d6;
+	padding: 5px;
+}
