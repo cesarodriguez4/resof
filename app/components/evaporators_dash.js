@@ -13,7 +13,7 @@ angular.module('resof')
             const FETCH_RECIR = 'https://resof.herokuapp.com/api/recirculado';
             const FETCH_INUNDADO = 'https://resof.herokuapp.com/api/inundado';
             const FETCH_EXPANSION_DIRECTA = 'https://resof.herokuapp.com/api/expansion_directa';
-            const MODELS = ['Válvula Pilotada S9 W/Pilot 110V', 'Válvula Pilotada CK2 SW FLG, W/Piloto 110V'];
+            const MODELS = ['Válvula Pilotada CK2 SW FLG, W/Piloto 110V', 'Válvula Pilotada S9 W/Pilot 110V'];
 
             vm.modelByTemp = () => 
             {
