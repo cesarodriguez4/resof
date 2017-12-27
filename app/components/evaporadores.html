@@ -36,7 +36,7 @@
 				<tbody>
 					<tr ng-repeat="item in $ctrl.generalList">
 						<td class="rejilla text-center">{{item.alias}}</td>
-						<td class="rejilla text-center">{{item.nombre.replace('X', $ctrl.selectedTab)}}</td>
+						<td class="rejilla text-center">{{item.nombre.replace('X', $ctrl.selectedTab + 1)}}</td>
 						<td class="rejilla text-center" style="width: 42%;">{{item.ubicacion}}</td>
 						<td class="rejilla text-center">{{$ctrl.calcTam(item.ubicacion)}}</td>
 						<td class="rejilla text-center" ng-if="item.modelo !== 'Válvula Pilotada CK2 SW FLG, W/Piloto 110V'">{{item.modelo}}</td>
