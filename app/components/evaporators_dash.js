@@ -4,7 +4,7 @@ angular.module('resof')
         bindings: {
             hero: '='
         },
-        controller: function($http, $stateParams) {
+        controller: function($http, $stateParams, $rootScope) {
             const type = $stateParams.type;
             const vm = this;
             const URL_SUCCION = 'https://resof.herokuapp.com/api/diametros/linea_de_succion';
@@ -29,6 +29,8 @@ angular.module('resof')
             vm.gas_values = [];
             vm.wgasList = [];
             vm.descongelamiento = ['Gas Caliente', 'Eléctrico', 'Agua'];
+            vm.tabs = [[1]];
+            vm.selectedTab = 0;
 
             $http({
                 method: 'GET',
@@ -61,8 +63,6 @@ angular.module('resof')
             });
 
             function closest(arr, target) {
-                console.log('arrlength', arr.length);
-                console.log('arr', arr, 'target', target);
                 if (!(arr) || arr.length == 0)
                     return null;
                 if (arr.length == 1)
@@ -82,7 +82,6 @@ angular.module('resof')
             }
 
             function getKeyByValue(object, value) {
-                console.log('obye', object, 'veiliu', value);
                 return Object.keys(object).find(key => object[key] === value);
             }
 
@@ -105,7 +104,6 @@ angular.module('resof')
                 const cargas = Object.keys(valores).map(function(key) {
                     return valores[key];
                 });
-                console.log(valores);
                 return getKeyByValue(valores, closest(cargas, carga));
             }
 
@@ -213,5 +211,33 @@ angular.module('resof')
                     vm.generalList = vm.wgasList;
                 }
             }
+
+            $rootScope.$on('numTabs', (e, arg) => {
+                console.log('tabs->',vm.tabs.length, 'input->', arg.length);
+                if (arg.length > vm.tabs.length) {
+                  vm.tabs.push([arg.length]);
+                  console.log('res', vm.tabs);
+                } else {
+                  vm.tabs.pop();
+                  console.log('pop', vm.tabs);
+                }
+            });
+
+            $rootScope.$on('selectTab', (e, arg) => {
+                vm.selectedTab = arg - 1;
+                console.log('selectTab', vm.selectedTab);
+            });
+
+            vm.updateTab = () => {
+              const descongelamiento = vm.des;
+              const carga = document.getElementById('carga-termica').value;
+              const evaporadores = document.getElementById('n-evaporadores').value;
+              const temperatura = vm.tempSel;
+
+              vm.tabs[vm.selectedTab][1] = {descongelamiento, carga, evaporadores, temperatura};
+              
+              console.log(vm.tabs);
+
+            };
         }
     });

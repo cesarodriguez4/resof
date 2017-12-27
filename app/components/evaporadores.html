@@ -6,15 +6,15 @@
 		<h2>Datos a procesar:</h2>
 		<div class="row">
 			<div class="col-3">DESCONGELAMIENTO:
-				<select class="form-control" ng-model="$ctrl.des" ng-change="$ctrl.cambiaDescongelamiento()">
-					<option ng-repeat="ub in $ctrl.descongelamiento" ng-value="ub">{{ub}}</option>
+				<select id="descongelamiento" ng-change="$ctrl.updateTab()" class="form-control" ng-model="$ctrl.des" ng-change="$ctrl.cambiaDescongelamiento()">
+					<option ng-repeat="ub in $ctrl.descongelamiento" value="ub" ng-value="ub">{{ub}}</option>
 				</select>
 			</div>
-			<div class="col-3">TEMPERATURA: [F]  <select class="form-control" ng-model="$ctrl.tempSel">
-				<option ng-repeat="it in $ctrl.succion" ng-value="{{it.temperatura}}">{{it.temperatura}}</option>
+			<div class="col-3">TEMPERATURA: [F]  <select id="temperatura" ng-change="$ctrl.updateTab()" class="form-control" ng-model="$ctrl.tempSel">
+				<option ng-repeat="it in $ctrl.succion" value="{{it.temperatura}}" ng-value="it.temperatura">{{it.temperatura}}</option>
 			</select></div>
-			<div class="col-3">CARGA TERMICA <input ng-model="$ctrl.cargaTotal" class="form-control" type="number" min="0" name=""/></div>
-			<div class="col-3">N EVAPORADORES<input class="form-control" ng-model="$ctrl.numeroEvaporadores" class="form-control" type="number" min="0" name=""/></div>
+			<div class="col-3">CARGA TERMICA <input id="carga-termica" ng-change="$ctrl.updateTab()" ng-model="$ctrl.cargaTotal" class="form-control" type="number" min="0" name=""/></div>
+			<div class="col-3">N EVAPORADORES<input id="n-evaporadores" ng-change="$ctrl.updateTab()" class="form-control" ng-model="$ctrl.numeroEvaporadores" class="form-control" type="number" min="0" name=""/></div>
 		</div>
 		<div class="row">
 			<div class="mt-2 cg-e">
@@ -36,7 +36,7 @@
 				<tbody>
 					<tr ng-repeat="item in $ctrl.generalList">
 						<td class="rejilla text-center">{{item.alias}}</td>
-						<td class="rejilla text-center">{{item.nombre}}</td>
+						<td class="rejilla text-center">{{item.nombre.replace('X', $ctrl.selectedTab)}}</td>
 						<td class="rejilla text-center" style="width: 42%;">{{item.ubicacion}}</td>
 						<td class="rejilla text-center">{{$ctrl.calcTam(item.ubicacion)}}</td>
 						<td class="rejilla text-center" ng-if="item.modelo !== 'Válvula Pilotada CK2 SW FLG, W/Piloto 110V'">{{item.modelo}}</td>
