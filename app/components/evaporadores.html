@@ -23,7 +23,7 @@
 			</div>
 			<div class="col-lg-12 text-center valvulas-title mt-2">VALVULAS</div>
 			<div ng-if='$ctrl.loadingTable'><i class="fa fa-cog fa-spin"></i> Cargando...</div>
-			<table ng-if='!$ctrl.loadingTable' class="table table-bordered table-sm table-responsive">
+			<table id="excel-table" ng-if='!$ctrl.loadingTable' class="table table-bordered table-sm table-responsive">
 				<thead>
 					<tr class="title-rejas">
 						<th  scope="col">ABREV.</th>

@@ -1,5 +1,8 @@
 'use strict';
 const electron = require('electron');
+const {ipcMain} = require('electron');
+const XLSX = require('xlsx');
+const open = require('open');
 
 const app = electron.app;
 
@@ -42,3 +45,13 @@ app.on('activate', () => {
 app.on('ready', () => {
 	mainWindow = createMainWindow();
 });
+
+ipcMain.on('excel', (event, arg) => {
+  saveToExcel(event, arg);
+});
+
+function saveToExcel(event, data) {
+	const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, [], "Lista de Evaporadores");
+    XLSX.writeFileAsync(`books/lista-evaporadores.xlsx`,workbook, {bookType:'xlsx', type:'array'},()=>open('books/lista-evaporadores.xlsx'));
+}

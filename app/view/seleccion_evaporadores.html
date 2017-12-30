@@ -3,19 +3,20 @@
 	<div class="row">
 		<div class="col-6">
 			<span>COMPONENTE SELECCIONADO:</span>
-			<button class="btn btn-secondary" >Cambiar nombre</button>
+			<button class="btn btn-secondary" ng-click="evap.toogleName()" >{{evap.changeName?'Guardar':'Cambiar nombre'}}</button>
+			<input ng-show="evap.changeName" ng-model="evap.tabName" ng-change="evap.emitChangeTabName()" type="text" name="nombre-componente">
 		</div>
 		<div class="col-6">
-			<span>CAPTURA DE PANTALLA:</span>
+			<span>HERRAMIENTAS:</span>
 			<div class="row">
-			  <button class="btn btn-secondary col-4" >Ver lista de válvulas</button>
-			  <button class="btn btn-secondary col-4" >Copiar lista de válvulas</button>
-			  <button class="btn btn-secondary col-4" >Imprimir Lista de válvulas</button>
+			  <button class="btn btn-secondary col-4" ng-click="evap.saveExcel()" >Exportar a Excel</button>
+			  <button class="btn btn-secondary col-4" >Copiar a portapapeles</button>
+			  <button class="btn btn-secondary col-4" >Generar PDF</button>
 			</div>
 		</div>
 	</div>
 	<div class="row sistemas">
-		<button class="btn tab" ng-repeat="(el,key) in evap.tabs" ng-click="evap.selectTab(key)">Sistema {{key}} <span ng-if='key>1' class=" tab" ng-if="evap.tabs.length > 1" ng-click="evap.deleteTab()">X</span></button>
+		<button class="btn tab" ng-repeat="(el,key) in evap.tabs" ng-click="evap.selectTab(key)" id="sistema-{{key}}" >Sistema {{key}} <span ng-if='key>1' class=" tab" ng-if="evap.tabs.length > 1" ng-click="evap.deleteTab()">X</span></button>
 		<button class="btn tab" ng-click="evap.onNewTab()">Nuevo</button>
 	</div>
 	  <evaporadores></evaporadores>

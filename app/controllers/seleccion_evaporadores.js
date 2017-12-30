@@ -5,6 +5,9 @@ function evap($rootScope) {
   var that = this;
   that.tabs = [1];
   that.numberTab = 1;
+  that.changeName = false;
+  that.selectedTab = 0;
+  that.tabName = '';
   that.onNewTab = function() {
     that.numberTab +=1;
     that.tabs.push(that.numberTab);
@@ -18,5 +21,19 @@ function evap($rootScope) {
 
   that.selectTab = num => {
     $rootScope.$broadcast('selectTab', num);
+    that.selectedTab = num;
+  };
+
+  that.toogleName = () => {
+    that.changeName = !that.changeName;
+  };
+
+  that.emitChangeTabName = () => {
+    $rootScope.$broadcast('updateName', that.numberTab, that.tabName);
+    document.getElementById(`sistema-${that.selectedTab}`).innerHTML = that.tabName;
+  };
+
+  that.saveExcel = () => {
+    $rootScope.$broadcast('saveToExcel');
   };
 };

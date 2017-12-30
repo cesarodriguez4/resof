@@ -5,6 +5,10 @@ angular.module('resof')
             hero: '='
         },
         controller: function($http, $stateParams, $rootScope) {
+            const {
+                ipcRenderer
+            } = require('electron');
+
             const type = $stateParams.type;
             const vm = this;
             const URL_SUCCION = 'https://resof.herokuapp.com/api/diametros/linea_de_succion';
@@ -15,21 +19,24 @@ angular.module('resof')
             const FETCH_EXPANSION_DIRECTA = 'https://resof.herokuapp.com/api/expansion_directa';
             const MODELS = ['Válvula Pilotada CK2 SW FLG, W/Piloto 110V', 'Válvula Pilotada S9 W/Pilot 110V'];
 
-            vm.modelByTemp = () => 
-            {
-              if (vm.tempSel >= -10) {
-                return MODELS[0];
-              } else {
-                return MODELS[1];
-              }  
-            } 
+
+
+            vm.modelByTemp = () => {
+                if (vm.tempSel >= -10) {
+                    return MODELS[0];
+                } else {
+                    return MODELS[1];
+                }
+            }
 
             vm.loadingTable = true;
             vm.pump_values = [];
             vm.gas_values = [];
             vm.wgasList = [];
             vm.descongelamiento = ['Gas Caliente', 'Eléctrico', 'Agua'];
-            vm.tabs = [[1]];
+            vm.tabs = [
+                [1]
+            ];
             vm.selectedTab = 0;
 
             $http({
@@ -213,31 +220,46 @@ angular.module('resof')
             }
 
             $rootScope.$on('numTabs', (e, arg) => {
-                console.log('tabs->',vm.tabs.length, 'input->', arg.length);
                 if (arg.length > vm.tabs.length) {
-                  vm.tabs.push([arg.length]);
-                  console.log('res', vm.tabs);
+                    vm.tabs.push([arg.length]);
                 } else {
-                  vm.tabs.pop();
-                  console.log('pop', vm.tabs);
+                    vm.tabs.pop();
                 }
             });
 
             $rootScope.$on('selectTab', (e, arg) => {
                 vm.selectedTab = arg - 1;
-                console.log('selectTab', vm.selectedTab);
+                if (vm.tabs[vm.selectedTab][1]) {
+                    vm.des = vm.tabs[vm.selectedTab][1].descongelamiento;
+                    vm.tempSel = Number(vm.tabs[vm.selectedTab][1].temperatura);
+                    vm.cargaTotal = Number(vm.tabs[vm.selectedTab][1].carga);
+                    vm.numeroEvaporadores = Number(vm.tabs[vm.selectedTab][1].evaporadores);
+                }
+            });
+
+            $rootScope.$on('updateName', (e, tab, name) => {
+                if (vm.tabs[vm.selectedTab][1]) {
+                    vm.tabs[vm.selectedTab][1].nombre = name;
+                }
             });
 
             vm.updateTab = () => {
-              const descongelamiento = vm.des;
-              const carga = document.getElementById('carga-termica').value;
-              const evaporadores = document.getElementById('n-evaporadores').value;
-              const temperatura = vm.tempSel;
-
-              vm.tabs[vm.selectedTab][1] = {descongelamiento, carga, evaporadores, temperatura};
-              
-              console.log(vm.tabs);
-
+                const descongelamiento = vm.des;
+                const carga = document.getElementById('carga-termica').value;
+                const evaporadores = document.getElementById('n-evaporadores').value;
+                const temperatura = vm.tempSel;
+                vm.tabs[vm.selectedTab][1] = {
+                    descongelamiento,
+                    carga,
+                    evaporadores,
+                    temperatura
+                };
             };
+
+            $rootScope.$on('saveToExcel', () => {
+                const worksheet = XLSX.utils.table_to_book(document.getElementById('excel-table'));
+                ipcRenderer.send('excel', worksheet);
+            });
+
         }
     });
