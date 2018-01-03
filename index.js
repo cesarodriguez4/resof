@@ -3,6 +3,8 @@ const electron = require('electron');
 const {ipcMain} = require('electron');
 const XLSX = require('xlsx');
 const open = require('open');
+const domtoimage = require('dom-to-image');
+const fs = require('fs');
 
 const app = electron.app;
 
@@ -50,8 +52,14 @@ ipcMain.on('excel', (event, arg) => {
   saveToExcel(event, arg);
 });
 
-function saveToExcel(event, data) {
-	const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, [], "Lista de Evaporadores");
+ipcMain.on('pdf', (event, DOMnode) => {
+  saveToPDF(DOMnode);
+});
+
+function saveToExcel(event, workbook) {
     XLSX.writeFileAsync(`books/lista-evaporadores.xlsx`,workbook, {bookType:'xlsx', type:'array'},()=>open('books/lista-evaporadores.xlsx'));
+}
+
+function saveToPDF(blob) {
+	fs.writeFile('print/imagen.png', blob);
 }

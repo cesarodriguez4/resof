@@ -254,11 +254,12 @@ angular.module('resof')
                     evaporadores,
                     temperatura
                 };
+                $rootScope.$broadcast('updateTab', vm.tabs);
             };
 
             $rootScope.$on('saveToExcel', () => {
-                const worksheet = XLSX.utils.table_to_book(document.getElementById('excel-table'));
-                ipcRenderer.send('excel', worksheet);
+                const workbook  = XLSX.utils.table_to_book(document.getElementById('excel-table'));
+                ipcRenderer.send('excel', workbook);
             });
 
         }

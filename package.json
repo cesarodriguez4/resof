@@ -25,6 +25,7 @@
     "electron"
   ],
   "dependencies": {
+    "dom-to-image": "^2.6.0",
     "electron-debug": "^1.0.0",
     "open": "^0.0.5",
     "xlsx": "^0.11.15"
