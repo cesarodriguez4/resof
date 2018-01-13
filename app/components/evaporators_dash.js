@@ -258,9 +258,60 @@ angular.module('resof')
             };
 
             $rootScope.$on('saveToExcel', () => {
-                const workbook  = XLSX.utils.table_to_book(document.getElementById('excel-table'));
-                ipcRenderer.send('excel', workbook);
+                //const workbook  = XLSX.utils.table_to_book(document.getElementById('excel-table'));
+                //ipcRenderer.send('excel', workbook);
+                vm.generateTable();
             });
 
+            // Crear una funcion que 
+            // crea una tabla sin filas
+            // agrega las columnas de la tab 1 a la tab n
+            // dividiendo carga termica entre evaporadores de esa tab se van rellenando los tama;os con ayuda de funcion
+            // se envia tabla a saveToExcel.
+
+            vm.generateTable = () => {
+                // Creacion de tabla
+                const table = document.createElement('table');
+                // Creacion de encabezado
+                const header = table.createTHead();
+                const hrow = header.insertRow(0);
+                const col0 = hrow.insertCell(0);
+                const col1 = hrow.insertCell(1);
+                const col2 = hrow.insertCell(2);
+                const col3 = hrow.insertCell(3);
+                const col4 = hrow.insertCell(4);
+                // Contenido de encabezado
+                col0.innerHTML = 'ABREV.';
+                col1.innerHTML = 'NOMBRE';
+                col2.innerHTML = 'UBICACIÓN';
+                col3.innerHTML = 'TAMAÑO';
+                col4.innerHTML = 'MODELO';
+                let plus = 0;
+                // Insertando filas
+                for (let tabs of vm.tabs) {
+                    const num_evaporadores = Number(tabs[1].evaporadores);
+                    let cont_evaporadores = 1;
+
+                    for (let e = num_evaporadores; e--;) {
+                        const num = tabs[0];
+                        let cont_filas = 1;
+                        const props = tabs[1];
+                        for (let fila of vm.generalList) {
+                            const row = table.insertRow(cont_filas);
+                            row.insertCell(0).innerHTML = vm.generalList[cont_filas - 1].alias;
+                            row.insertCell(1).innerHTML = `EV${e+1+plus}-${cont_filas}`;
+                            row.insertCell(2).innerHTML = vm.generalList[cont_filas - 1].ubicacion;
+                            row.insertCell(3).innerHTML = 'TAMANO';
+                            row.insertCell(4).innerHTML = vm.generalList[cont_filas - 1].modelo;
+                            cont_filas += 1;
+                        }
+                        cont_evaporadores += 1;
+                    }
+                    plus += num_evaporadores;
+                }
+
+                const workbook = XLSX.utils.table_to_book(table);
+                ipcRenderer.send('excel', workbook);
+            };
         }
     });
