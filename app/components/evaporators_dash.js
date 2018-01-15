@@ -287,6 +287,7 @@ angular.module('resof')
                 col3.innerHTML = 'TAMAÑO';
                 col4.innerHTML = 'MODELO';
                 let plus = 0;
+                console.log(vm.generalList);
                 // Insertando filas
                 for (let tabs of vm.tabs) {
                     const num_evaporadores = Number(tabs[1].evaporadores);
@@ -301,7 +302,7 @@ angular.module('resof')
                             row.insertCell(0).innerHTML = vm.generalList[cont_filas - 1].alias;
                             row.insertCell(1).innerHTML = `EV${e+1+plus}-${cont_filas}`;
                             row.insertCell(2).innerHTML = vm.generalList[cont_filas - 1].ubicacion;
-                            row.insertCell(3).innerHTML = 'TAMANO';
+                            row.insertCell(3).innerHTML = vm.calcTam(vm.generalList[cont_filas - 1].ubicacion);
                             row.insertCell(4).innerHTML = vm.generalList[cont_filas - 1].modelo;
                             cont_filas += 1;
                         }
