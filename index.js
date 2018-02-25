@@ -52,14 +52,6 @@ ipcMain.on('excel', (event, arg) => {
   saveToExcel(event, arg);
 });
 
-ipcMain.on('pdf', (event, DOMnode) => {
-  saveToPDF(DOMnode);
-});
-
 function saveToExcel(event, workbook) {
     XLSX.writeFileAsync(`books/lista-evaporadores.xlsx`,workbook, {bookType:'xlsx', type:'array'},()=>open('books/lista-evaporadores.xlsx'));
-}
-
-function saveToPDF(blob) {
-	fs.writeFile('print/imagen.png', blob);
 }

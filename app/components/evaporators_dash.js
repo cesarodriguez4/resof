@@ -92,8 +92,8 @@ angular.module('resof')
                 return Object.keys(object).find(key => object[key] === value);
             }
 
-            function LineaDeSuccion() {
-                const carga = vm.cargaTotal / vm.numeroEvaporadores;
+            function LineaDeSuccion(cargaTotal= vm.cargaTotal, numeroEvaporadores=vm.numeroEvaporadores) {
+                const carga = cargaTotal / numeroEvaporadores;
                 const valores = {};
                 const i = vm.succion.find(i => i.temperatura == vm.tempSel);
 
@@ -114,13 +114,13 @@ angular.module('resof')
                 return getKeyByValue(valores, closest(cargas, carga));
             }
 
-            function LineadeLiquido() {
-                const carga = vm.cargaTotal / vm.numeroEvaporadores;
+            function LineadeLiquido(cargaTotal= vm.cargaTotal, numeroEvaporadores=vm.numeroEvaporadores) {
+                const carga = cargaTotal / numeroEvaporadores;
                 return getKeyByValue(vm.pump_discharge, closest(vm.pump_values, carga));
             }
 
-            function GasCaliente() {
-                const carga = vm.cargaTotal / vm.numeroEvaporadores;
+            function GasCaliente(cargaTotal= vm.cargaTotal, numeroEvaporadores=vm.numeroEvaporadores) {
+                const carga = cargaTotal / numeroEvaporadores;
                 return getKeyByValue(vm.gas, closest(vm.gas_values, carga));
             }
 
@@ -186,20 +186,20 @@ angular.module('resof')
                     vm.title = null;
                     break;
             }
-            vm.calcTam = type => {
+            vm.calcTam = (type, cargaTotal = vm.cargaTotal, numeroEvaporadores = vm.numeroEvaporadores) => {
                 if (vm.cargaTotal && vm.numeroEvaporadores) {
                     if (vm.succion) {
                         switch (type) {
                             case 'Línea de Succión':
-                                return LineaDeSuccion();
+                                return LineaDeSuccion(cargaTotal, numeroEvaporadores);
                             case 'Línea de Líquido':
-                                return LineadeLiquido();
+                                return LineadeLiquido(cargaTotal, numeroEvaporadores);
                             case 'Drenaje de Descongelamiento':
-                                return LineadeLiquido();
+                                return LineadeLiquido(cargaTotal, numeroEvaporadores);
                             case 'Línea de Descongelamiento':
-                                return LineadeLiquido();
+                                return LineadeLiquido(cargaTotal, numeroEvaporadores);
                             case 'Línea de Gas Caliente':
-                                return GasCaliente();
+                                return GasCaliente(cargaTotal, numeroEvaporadores);
                             default:
                                 return console.warn('No mode selected');
                         }
@@ -287,13 +287,18 @@ angular.module('resof')
                 col3.innerHTML = 'TAMAÑO';
                 col4.innerHTML = 'MODELO';
                 let plus = 0;
-                console.log(vm.generalList);
                 // Insertando filas
-                for (let tabs of vm.tabs) {
+               console.log('general', vm.generalList);
+               console.log('t',vm.tabs);
+
+               const nuevo = vm.tabs.slice(0).reverse();
+               for (let tabs of nuevo) {
+                    console.log('tab', tabs)
                     const num_evaporadores = Number(tabs[1].evaporadores);
                     let cont_evaporadores = 1;
-
+                    console.log('toto',num_evaporadores);
                     for (let e = num_evaporadores; e--;) {
+                        console.log(e, plus, e+1+plus);
                         const num = tabs[0];
                         let cont_filas = 1;
                         const props = tabs[1];
@@ -302,15 +307,26 @@ angular.module('resof')
                             row.insertCell(0).innerHTML = vm.generalList[cont_filas - 1].alias;
                             row.insertCell(1).innerHTML = `EV${e+1+plus}-${cont_filas}`;
                             row.insertCell(2).innerHTML = vm.generalList[cont_filas - 1].ubicacion;
-                            row.insertCell(3).innerHTML = vm.calcTam(vm.generalList[cont_filas - 1].ubicacion);
+                            row.insertCell(3).innerHTML = vm.calcTam(vm.generalList[cont_filas - 1].ubicacion,
+                                Number(tabs[1].carga), Number(tabs[1].evaporadores));
                             row.insertCell(4).innerHTML = vm.generalList[cont_filas - 1].modelo;
                             cont_filas += 1;
                         }
                         cont_evaporadores += 1;
+                        const blank = table.insertRow(cont_filas);
+                        blank.insertCell(0).innerHTML = '';
+                        blank.insertCell(1).innerHTML = '';
+                        blank.insertCell(2).innerHTML = '';
+                        blank.insertCell(3).innerHTML = '';
+                        blank.insertCell(4).innerHTML = '';
+                        cont_filas += 1;
                     }
                     plus += num_evaporadores;
+                    console.log('sub mandamas', table);
                 }
 
+
+                console.log('la mandamas', table);
                 const workbook = XLSX.utils.table_to_book(table);
                 ipcRenderer.send('excel', workbook);
             };
