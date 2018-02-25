@@ -288,17 +288,12 @@ angular.module('resof')
                 col4.innerHTML = 'MODELO';
                 let plus = 0;
                 // Insertando filas
-               console.log('general', vm.generalList);
-               console.log('t',vm.tabs);
 
                const nuevo = vm.tabs.slice(0).reverse();
                for (let tabs of nuevo) {
-                    console.log('tab', tabs)
                     const num_evaporadores = Number(tabs[1].evaporadores);
                     let cont_evaporadores = 1;
-                    console.log('toto',num_evaporadores);
                     for (let e = num_evaporadores; e--;) {
-                        console.log(e, plus, e+1+plus);
                         const num = tabs[0];
                         let cont_filas = 1;
                         const props = tabs[1];
@@ -322,11 +317,8 @@ angular.module('resof')
                         cont_filas += 1;
                     }
                     plus += num_evaporadores;
-                    console.log('sub mandamas', table);
                 }
 
-
-                console.log('la mandamas', table);
                 const workbook = XLSX.utils.table_to_book(table);
                 ipcRenderer.send('excel', workbook);
             };
