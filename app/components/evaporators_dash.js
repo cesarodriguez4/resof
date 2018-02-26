@@ -289,16 +289,17 @@ angular.module('resof')
                 let plus = 0;
                 // Insertando filas
 
-               const nuevo = vm.tabs.slice(0).reverse();
+               const nuevo = vm.tabs;
+               
                for (let tabs of nuevo) {
                     const num_evaporadores = Number(tabs[1].evaporadores);
                     let cont_evaporadores = 1;
-                    for (let e = num_evaporadores; e--;) {
+                    for (let e = 0; e<num_evaporadores; e++) {
                         const num = tabs[0];
                         let cont_filas = 1;
                         const props = tabs[1];
                         for (let fila of vm.generalList) {
-                            const row = table.insertRow(cont_filas);
+                            const row = table.insertRow();
                             row.insertCell(0).innerHTML = vm.generalList[cont_filas - 1].alias;
                             row.insertCell(1).innerHTML = `EV${e+1+plus}-${cont_filas}`;
                             row.insertCell(2).innerHTML = vm.generalList[cont_filas - 1].ubicacion;
@@ -308,7 +309,7 @@ angular.module('resof')
                             cont_filas += 1;
                         }
                         cont_evaporadores += 1;
-                        const blank = table.insertRow(cont_filas);
+                        const blank = table.insertRow();
                         blank.insertCell(0).innerHTML = '';
                         blank.insertCell(1).innerHTML = '';
                         blank.insertCell(2).innerHTML = '';
