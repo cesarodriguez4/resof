@@ -6,7 +6,7 @@
 		<h2>Datos a procesar:</h2>
 		<div class="row">
 			<div class="col-3">DESCONGELAMIENTO:
-				<select id="descongelamiento" ng-change="$ctrl.updateTab()" class="form-control" ng-model="$ctrl.des" ng-change="$ctrl.cambiaDescongelamiento()">
+				<select id="descongelamiento" class="form-control" ng-model="$ctrl.des" ng-change="$ctrl.cambiaDescongelamiento()">
 					<option ng-repeat="ub in $ctrl.descongelamiento" value="ub" ng-value="ub">{{ub}}</option>
 				</select>
 			</div>
@@ -27,7 +27,6 @@
 				<thead>
 					<tr class="title-rejas">
 						<th  scope="col">ABREV.</th>
-						<th  scope="col">NOMBRE</th>
 						<th  class="text-center" scope="col">UBICACIÓN</th>
 						<th  scope="col">TAMAÑO</th>
 						<th class="col-lg-4 text-center" scope="col">MODELO</th>
@@ -36,7 +35,6 @@
 				<tbody>
 					<tr ng-repeat="item in $ctrl.generalList">
 						<td class="rejilla text-center">{{item.alias}}</td>
-						<td class="rejilla text-center">{{item.nombre.replace('X', $ctrl.selectedTab + 1)}}</td>
 						<td class="rejilla text-center" style="width: 42%;">{{item.ubicacion}}</td>
 						<td class="rejilla text-center">{{$ctrl.calcTam(item.ubicacion)}}</td>
 						<td class="rejilla text-center" ng-if="item.modelo !== 'Válvula Pilotada CK2 SW FLG, W/Piloto 110V'">{{item.modelo}}</td>

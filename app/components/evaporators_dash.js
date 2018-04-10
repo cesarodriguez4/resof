@@ -217,6 +217,7 @@ angular.module('resof')
                 } else {
                     vm.generalList = vm.wgasList;
                 }
+                vm.updateTab();
             }
 
             $rootScope.$on('numTabs', (e, arg) => {
@@ -228,13 +229,20 @@ angular.module('resof')
             });
 
             $rootScope.$on('selectTab', (e, arg) => {
+                console.log('select',arg);
                 vm.selectedTab = arg - 1;
                 if (vm.tabs[vm.selectedTab][1]) {
+                    console.log('se cumple');
                     vm.des = vm.tabs[vm.selectedTab][1].descongelamiento;
                     vm.tempSel = Number(vm.tabs[vm.selectedTab][1].temperatura);
                     vm.cargaTotal = Number(vm.tabs[vm.selectedTab][1].carga);
                     vm.numeroEvaporadores = Number(vm.tabs[vm.selectedTab][1].evaporadores);
+                } else {
+                   vm.tempSel = 0;
+                   vm.cargaTotal = 0;
+                   vm.numeroEvaporadores = 0;
                 }
+                console.log(vm.tabs);
             });
 
             $rootScope.$on('updateName', (e, tab, name) => {
@@ -287,11 +295,9 @@ angular.module('resof')
                 col3.innerHTML = 'TAMAÑO';
                 col4.innerHTML = 'MODELO';
                 let plus = 0;
-                // Insertando filas
-
-               const nuevo = vm.tabs;
-               
-               for (let tabs of nuevo) {
+                // Insertando filas       
+               console.log(vm.tabs);      
+               for (let tabs of vm.tabs) {
                     const num_evaporadores = Number(tabs[1].evaporadores);
                     let cont_evaporadores = 1;
                     for (let e = 0; e<num_evaporadores; e++) {
@@ -310,11 +316,17 @@ angular.module('resof')
                         }
                         cont_evaporadores += 1;
                         const blank = table.insertRow();
-                        blank.insertCell(0).innerHTML = '';
-                        blank.insertCell(1).innerHTML = '';
+                        blank.insertCell(0).innerHTML = 'Sistema:';
+                        blank.insertCell(1).innerHTML = `${tabs[1].nombre || tabs[0]}`;
                         blank.insertCell(2).innerHTML = '';
                         blank.insertCell(3).innerHTML = '';
                         blank.insertCell(4).innerHTML = '';
+                        const nameSystem = table.insertRow();
+                        nameSystem.insertCell(0).innerHTML = '';
+                        nameSystem.insertCell(1).innerHTML = '';
+                        nameSystem.insertCell(2).innerHTML = '';
+                        nameSystem.insertCell(3).innerHTML = '';
+                        nameSystem.insertCell(4).innerHTML = '';
                         cont_filas += 1;
                     }
                     plus += num_evaporadores;
