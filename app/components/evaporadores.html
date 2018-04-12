@@ -1,20 +1,20 @@
-<div class="row sel-evap-directiva p-4">
+<div class="row sel-evap-directiva p-1">
 	<div class="col-5 p-4">
 		<img class="sel-evap-img" src="{{$ctrl.img}}">
 	</div>
 	<div class="col-7">
-		<h2>Datos a procesar:</h2>
-		<div class="row">
+		<h4>Datos a procesar:</h4>
+		<div class="row titles-main">
 			<div class="col-3">DESCONGELAMIENTO:
-				<select id="descongelamiento" class="form-control" ng-model="$ctrl.des" ng-change="$ctrl.cambiaDescongelamiento()">
+				<select id="descongelamiento" width="50" ng-model="$ctrl.des" ng-change="$ctrl.cambiaDescongelamiento()">
 					<option ng-repeat="ub in $ctrl.descongelamiento" value="ub" ng-value="ub">{{ub}}</option>
 				</select>
 			</div>
-			<div class="col-3">TEMPERATURA: [F]  <select id="temperatura" ng-change="$ctrl.updateTab()" class="form-control" ng-model="$ctrl.tempSel">
+			<div class="col-3">TEMPERATURA: [F]  <select id="temperatura" ng-change="$ctrl.updateTab()" width="50" ng-model="$ctrl.tempSel">
 				<option ng-repeat="it in $ctrl.succion" value="{{it.temperatura}}" ng-value="it.temperatura">{{it.temperatura}}</option>
 			</select></div>
-			<div class="col-3 trcarga">CARGA TERMICA(TR) <input id="carga-termica" ng-change="$ctrl.updateTab()" ng-model="$ctrl.cargaTotal" class="form-control" type="number" min="0" name=""/></div>
-			<div class="col-3">N EVAPORADORES<input id="n-evaporadores" ng-change="$ctrl.updateTab()" class="form-control" ng-model="$ctrl.numeroEvaporadores" class="form-control" type="number" min="0" name=""/></div>
+			<div class="col-3 trcarga">CARGA TERMICA(TR) <input id="carga-termica" ng-change="$ctrl.updateTab()" ng-model="$ctrl.cargaTotal" width="50" type="number" min="0" max="1000000" name=""/></div>
+			<div class="col-3">N EVAPORADORES<input id="n-evaporadores" ng-change="$ctrl.updateTab()" width="50" ng-model="$ctrl.numeroEvaporadores" type="number" min="0" max="30" name=""/></div>
 		</div>
 		<div class="row">
 			<div class="mt-2 cg-e">
