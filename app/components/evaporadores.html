@@ -3,7 +3,7 @@
 		<img class="sel-evap-img" src="{{$ctrl.img}}">
 	</div>
 	<div class="col-7">
-		<h4>Datos a procesar:</h4>
+		<h4>DATOS A PROCESAR:</h4>
 		<div class="row titles-main">
 			<div class="col-3">DESCONGELAMIENTO:
 				<select id="descongelamiento" width="50" ng-model="$ctrl.des" ng-change="$ctrl.cambiaDescongelamiento()">
@@ -13,7 +13,7 @@
 			<div class="col-3">TEMPERATURA: [F]  <select id="temperatura" ng-change="$ctrl.updateTab()" width="50" ng-model="$ctrl.tempSel">
 				<option ng-repeat="it in $ctrl.succion" value="{{it.temperatura}}" ng-value="it.temperatura">{{it.temperatura}}</option>
 			</select></div>
-			<div class="col-3 trcarga">CARGA TERMICA(TR) <input id="carga-termica" ng-change="$ctrl.updateTab()" ng-model="$ctrl.cargaTotal" width="50" type="number" min="0" max="1000000" name=""/></div>
+			<div class="col-3 trcarga">CARGA TÉRMICA(TR) <input id="carga-termica" ng-change="$ctrl.updateTab()" ng-model="$ctrl.cargaTotal" width="50" type="number" min="0" max="1000000" name=""/></div>
 			<div class="col-3">N EVAPORADORES<input id="n-evaporadores" ng-change="$ctrl.updateTab()" width="50" ng-model="$ctrl.numeroEvaporadores" type="number" min="0" max="30" name=""/></div>
 		</div>
 		<div class="row">
@@ -21,7 +21,7 @@
 				CARGA TERMICA EVAPORADORES(TR) 
 				<input class='col-2 text-center' type="text" disabled value="{{$ctrl.cargaTotal/$ctrl.numeroEvaporadores || 'Sin datos'}}"/>
 			</div>
-			<div class="col-lg-12 text-center valvulas-title mt-2">VALVULAS</div>
+			<div class="col-lg-12 text-center valvulas-title mt-2">VÁLVULAS</div>
 			<div ng-if='$ctrl.loadingTable'><i class="fa fa-cog fa-spin"></i> Cargando...</div>
 			<table id="excel-table" ng-if='!$ctrl.loadingTable' class="table table-bordered table-sm table-responsive">
 				<thead>

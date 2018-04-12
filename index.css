@@ -135,3 +135,7 @@ header h1 {
 .titles-main input[type="number"] {
 	width: 20%;
 }
+
+.pid {
+	margin-left: 25%;
+}
